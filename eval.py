@@ -14,7 +14,7 @@ from torchvision import datasets
 def eval(dataset_name):
     assert dataset_name in ['MNIST', 'mnist_m']
 
-    model_root = 'models'
+    model_root = 'repo/models'
     image_root = os.path.join('dataset', dataset_name)
 
     cuda = True
