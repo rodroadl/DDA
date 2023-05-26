@@ -17,7 +17,7 @@ def test(dataset_name):
     model_root = 'models'
     image_root = os.path.join('dataset', dataset_name)
 
-    cuda = False
+    cuda = True
     cudnn.benchmark = True
     batch_size = 128
     image_size = 28

@@ -23,7 +23,7 @@ def main():
     source_image_root = os.path.join('dataset', source_dataset_name)
     target_image_root = os.path.join('dataset', target_dataset_name)
     model_root = 'models'
-    cuda = False
+    cuda = True
     cudnn.benchmark = True
     lr = 1e-3
     batch_size = 128
