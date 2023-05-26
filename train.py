@@ -15,14 +15,14 @@ from data_loader import GetLoader
 from torchvision import datasets
 from torchvision import transforms
 from model import DDAModel
-from test import test
+from eval import eval
 
-def main():
+def train():
     source_dataset_name = 'MNIST'
     target_dataset_name = 'mnist_m'
-    source_image_root = os.path.join('dataset', source_dataset_name)
-    target_image_root = os.path.join('dataset', target_dataset_name)
-    model_root = 'models'
+    source_image_root = os.path.join('repo/dataset', source_dataset_name)
+    target_image_root = os.path.join('repo/dataset', target_dataset_name)
+    model_root = 'repo/models'
     cuda = True
     cudnn.benchmark = True
     lr = 1e-3
@@ -147,9 +147,9 @@ def main():
             torch.save(model, '{0}/mnist_mnistm_model_epoch_current.pth'.format(model_root))
 
             print('\n')
-            acc_s = test(source_dataset_name)
+            acc_s = eval(source_dataset_name)
             print('Accuracy of the %s dataset: %f' % ('mnist', acc_s))
-            acc_t = test(target_dataset_name)
+            acc_t = eval(target_dataset_name)
             print('Accuracy of the %s dataset: %f' % ('mnist_m', acc_t))
             if acc_t > best_acc_t:
                 best_acc_s = acc_s
@@ -159,6 +159,3 @@ def main():
         print('Accuracy of the %s dataset: %f' % ('mnist', best_acc_s))
         print('Accuracy of the %s dataset: %f' % ('mnist_m', best_acc_t))
         print('Corresponding model was save in ' + model_root + '/mnist_mnistm_model_epoch_best.pth')
-
-if __name__ == "__main__":
-    main()

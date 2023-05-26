@@ -11,7 +11,7 @@ from torchvision import transforms
 from data_loader import GetLoader
 from torchvision import datasets
 
-def test(dataset_name):
+def eval(dataset_name):
     assert dataset_name in ['MNIST', 'mnist_m']
 
     model_root = 'models'
