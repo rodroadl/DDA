@@ -89,7 +89,7 @@ def train(root=''):
         model = model.cuda()
         loss_label = loss_label.cuda()
         loss_domain = loss_domain.cuda()
-
+    
     for p in model.parameters():
         p.requires_grad = True
 
@@ -146,15 +146,15 @@ def train(root=''):
             sys.stdout.flush()
             torch.save(model, '{0}/mnist_mnistm_model_epoch_current.pth'.format(model_root))
 
-            print('\n')
-            acc_s = eval(source_dataset_name,root)
-            print('Accuracy of the %s dataset: %f' % ('mnist', acc_s))
-            acc_t = eval(target_dataset_name,root)
-            print('Accuracy of the %s dataset: %f' % ('mnist_m', acc_t))
-            if acc_t > best_acc_t:
-                best_acc_s = acc_s
-                best_acc_t = acc_t
-                torch.save(model, '{0}/mnist_mnistm_model_epoch_best.pth'.format(model_root))
+        print('\n')
+        acc_s = eval(source_dataset_name,root)
+        print('Accuracy of the %s dataset: %f' % ('mnist', acc_s))
+        acc_t = eval(target_dataset_name,root)
+        print('Accuracy of the %s dataset: %f' % ('mnist_m', acc_t))
+        if acc_t > best_acc_t:
+            best_acc_s = acc_s
+            best_acc_t = acc_t
+            torch.save(model, '{0}/mnist_mnistm_model_epoch_best.pth'.format(model_root))
         print('============ Summary ============= \n')
         print('Accuracy of the %s dataset: %f' % ('mnist', best_acc_s))
         print('Accuracy of the %s dataset: %f' % ('mnist_m', best_acc_t))
