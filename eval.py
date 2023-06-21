@@ -11,11 +11,11 @@ from torchvision import transforms
 from data_loader import GetLoader
 from torchvision import datasets
 
-def eval(dataset_name):
+def eval(dataset_name,root=''):
     assert dataset_name in ['MNIST', 'mnist_m']
 
-    model_root = 'repo/models'
-    image_root = os.path.join('dataset', dataset_name)
+    model_root = root+'models'
+    image_root = os.path.join(root+'dataset', dataset_name)
 
     cuda = True
     cudnn.benchmark = True

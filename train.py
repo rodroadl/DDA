@@ -17,12 +17,12 @@ from torchvision import transforms
 from model import DDAModel
 from eval import eval
 
-def train():
+def train(root=''):
     source_dataset_name = 'MNIST'
     target_dataset_name = 'mnist_m'
-    source_image_root = os.path.join('repo/dataset', source_dataset_name)
-    target_image_root = os.path.join('repo/dataset', target_dataset_name)
-    model_root = 'repo/models'
+    source_image_root = os.path.join(root+'dataset', source_dataset_name)
+    target_image_root = os.path.join(root+'dataset', target_dataset_name)
+    model_root = root+'models'
     cuda = True
     cudnn.benchmark = True
     lr = 1e-3
@@ -147,9 +147,9 @@ def train():
             torch.save(model, '{0}/mnist_mnistm_model_epoch_current.pth'.format(model_root))
 
             print('\n')
-            acc_s = eval(source_dataset_name)
+            acc_s = eval(source_dataset_name,root)
             print('Accuracy of the %s dataset: %f' % ('mnist', acc_s))
-            acc_t = eval(target_dataset_name)
+            acc_t = eval(target_dataset_name,root)
             print('Accuracy of the %s dataset: %f' % ('mnist_m', acc_t))
             if acc_t > best_acc_t:
                 best_acc_s = acc_s
