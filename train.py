@@ -195,7 +195,7 @@ def train(root='', n_epoch=100):
 
     ax2.plot(range(n_epoch), acc_ss, label='acc_s')
     ax2.plot(range(n_epoch), acc_ts, label='acc_t')
-    ax2.plot(range(n_epoch), acc_ss, label='acc')
+    ax2.plot(range(n_epoch), accs, label='acc')
     ax2.legend()
 
     plt.show()
