@@ -153,11 +153,11 @@ def train(root='', n_epoch=100):
 
             # for plotting
             steps += 1
-            loss_s_labels.append(loss_s_label)
-            loss_s_domains.append(loss_s_domain)
-            loss_t_domains.append(loss_t_domain)
-            loss_domains.append(loss_s_domain+loss_t_domain)
-            losses.append(loss)
+            loss_s_labels.append(loss_s_label.data.cpu())
+            loss_s_domains.append(loss_s_domain.data.cpu())
+            loss_t_domains.append(loss_t_domain.data.cpu())
+            loss_domains.append(loss_s_domain.data.cpu()+loss_t_domain.data.cpu())
+            losses.append(loss.data.cpu())
 
 
             sys.stdout.write('\r epoch: %d, [iter: %d / all %d], loss_s_label: %f, loss_s_domain: %f, loss_t_domain: %f' \
@@ -171,9 +171,9 @@ def train(root='', n_epoch=100):
         acc_t = eval(target_dataset_name,root)
 
         # for plot
-        acc_ss.append(acc_s)
-        acc_ts.append(acc_t)
-        accs.append(acc_s+acc_t)
+        acc_ss.append(acc_s.data.cpu())
+        acc_ts.append(acc_t.data.cpu())
+        accs.append(acc_s.data.cpu()+acc_t.data.cpu())
 
         if acc_t > best_acc_t:
             best_acc_s = acc_s
@@ -186,14 +186,14 @@ def train(root='', n_epoch=100):
     
     fig, (ax1, ax2) = plt.subplots(2)
     
-    ax1.plot(steps, loss_s_labels.cpu(), label='loss_s_labels')
-    ax1.plot(steps, loss_s_domains.cpu(), label='loss_s_domains')
-    ax1.plot(steps, loss_t_domains.cpu(), label='loss_t_domains')
-    ax1.plot(steps, loss_domains.cpu(), label='loss_domains')
-    ax1.plot(steps, losses.cpu(), label='losses')
+    ax1.plot(steps, loss_s_labels, label='loss_s_labels')
+    ax1.plot(steps, loss_s_domains, label='loss_s_domains')
+    ax1.plot(steps, loss_t_domains, label='loss_t_domains')
+    ax1.plot(steps, loss_domains, label='loss_domains')
+    ax1.plot(steps, losses, label='losses')
 
-    ax2.plot(n_epoch, acc_ss.cpu(), label='acc_s')
-    ax2.plot(n_epoch, acc_ts.cpu(), label='acc_t')
-    ax2.plot(n_epoch, acc_ss.cpu(), label='acc')
+    ax2.plot(n_epoch, acc_ss, label='acc_s')
+    ax2.plot(n_epoch, acc_ts, label='acc_t')
+    ax2.plot(n_epoch, acc_ss, label='acc')
 
     plt.show()
