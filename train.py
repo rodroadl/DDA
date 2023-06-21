@@ -18,7 +18,7 @@ from model import DDAModel
 from eval import eval
 import matplotlib.pyplot as plt
 
-def train(root=''):
+def train(root='', n_epoch=100):
     source_dataset_name = 'MNIST'
     target_dataset_name = 'mnist_m'
     source_image_root = os.path.join(root+'dataset', source_dataset_name)
@@ -29,7 +29,7 @@ def train(root=''):
     lr = 1e-3
     batch_size = 128
     image_size = 28
-    n_epoch = 10
+    n_epoch = n_epoch
 
     manual_seed  = random.randint(1, 10000)
     random.seed(manual_seed)
@@ -186,14 +186,14 @@ def train(root=''):
     
     fig, (ax1, ax2) = plt.subplots(2)
     
-    ax1.plot(steps, loss_s_labels, label='loss_s_labels')
-    ax1.plot(steps, loss_s_domains, label='loss_s_domains')
-    ax1.plot(steps, loss_t_domains, label='loss_t_domains')
-    ax1.plot(steps, loss_domains, label='loss_domains')
-    ax1.plot(steps, losses, label='losses')
+    ax1.plot(steps, loss_s_labels.cpu(), label='loss_s_labels')
+    ax1.plot(steps, loss_s_domains.cpu(), label='loss_s_domains')
+    ax1.plot(steps, loss_t_domains.cpu(), label='loss_t_domains')
+    ax1.plot(steps, loss_domains.cpu(), label='loss_domains')
+    ax1.plot(steps, losses.cpu(), label='losses')
 
-    ax2.plot(n_epoch, acc_ss, label='acc_s')
-    ax2.plot(n_epoch, acc_ts, label='acc_t')
-    ax2.plot(n_epoch, acc_ss, label='acc')
+    ax2.plot(n_epoch, acc_ss.cpu(), label='acc_s')
+    ax2.plot(n_epoch, acc_ts.cpu(), label='acc_t')
+    ax2.plot(n_epoch, acc_ss.cpu(), label='acc')
 
     plt.show()
