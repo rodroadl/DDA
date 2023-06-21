@@ -186,14 +186,14 @@ def train(root='', n_epoch=100):
     
     fig, (ax1, ax2) = plt.subplots(2)
     
-    ax1.plot(steps, loss_s_labels, label='loss_s_labels')
-    ax1.plot(steps, loss_s_domains, label='loss_s_domains')
-    ax1.plot(steps, loss_t_domains, label='loss_t_domains')
-    ax1.plot(steps, loss_domains, label='loss_domains')
-    ax1.plot(steps, losses, label='losses')
+    ax1.plot(range(steps), loss_s_labels, label='loss_s_labels')
+    ax1.plot(range(steps), loss_s_domains, label='loss_s_domains')
+    ax1.plot(range(steps), loss_t_domains, label='loss_t_domains')
+    ax1.plot(range(steps), loss_domains, label='loss_domains')
+    ax1.plot(range(steps), losses, label='losses')
 
-    ax2.plot(n_epoch, acc_ss, label='acc_s')
-    ax2.plot(n_epoch, acc_ts, label='acc_t')
-    ax2.plot(n_epoch, acc_ss, label='acc')
+    ax2.plot(range(n_epoch), acc_ss, label='acc_s')
+    ax2.plot(range(n_epoch), acc_ts, label='acc_t')
+    ax2.plot(range(n_epoch), acc_ss, label='acc')
 
     plt.show()
