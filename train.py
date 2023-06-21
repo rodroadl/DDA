@@ -16,6 +16,7 @@ from torchvision import datasets
 from torchvision import transforms
 from model import DDAModel
 from eval import eval
+import matplotlib.pyplot as plt
 
 def train(root=''):
     source_dataset_name = 'MNIST'
@@ -96,11 +97,21 @@ def train(root=''):
     # training
     best_acc_t = 0.
     gamma = 10
+    loss_s_labels = []
+    loss_s_domains = []
+    loss_t_domains = []
+    loss_domains = []
+    losses = []
+    acc_ss = []
+    acc_ts = []
+    accs = []
+    steps = 0
     for epoch in range(n_epoch):
         len_dataloader = min(len(dataloader_source), len(dataloader_target))
         data_source_iter = iter(dataloader_source)
         data_target_iter = iter(dataloader_target)
         for i in range(len_dataloader):
+            
             p = float(i + epoch * len_dataloader) / n_epoch / len_dataloader
             lamda = 2. / (1. + np.exp(-gamma * p))-1
 
@@ -140,6 +151,15 @@ def train(root=''):
             loss.backward()
             optimizer.step()
 
+            # for plotting
+            steps += 1
+            loss_s_labels.append(loss_s_label)
+            loss_s_domains.append(loss_s_domain)
+            loss_t_domains.append(loss_t_domain)
+            loss_domains.append(loss_s_domain+loss_t_domain)
+            losses.append(loss)
+
+
             sys.stdout.write('\r epoch: %d, [iter: %d / all %d], loss_s_label: %f, loss_s_domain: %f, loss_t_domain: %f' \
                             % (epoch, i+1, len_dataloader, loss_s_label.data.cpu().numpy(),
                                 loss_s_domain.data.cpu().numpy(), loss_t_domain.data.cpu().item()))
@@ -148,9 +168,13 @@ def train(root=''):
 
         print('\n')
         acc_s = eval(source_dataset_name,root)
-        print('Accuracy of the %s dataset: %f' % ('mnist', acc_s))
         acc_t = eval(target_dataset_name,root)
-        print('Accuracy of the %s dataset: %f' % ('mnist_m', acc_t))
+
+        # for plot
+        acc_ss.append(acc_s)
+        acc_ts.append(acc_t)
+        accs.append(acc_s+acc_t)
+
         if acc_t > best_acc_t:
             best_acc_s = acc_s
             best_acc_t = acc_t
@@ -159,3 +183,17 @@ def train(root=''):
         print('Accuracy of the %s dataset: %f' % ('mnist', best_acc_s))
         print('Accuracy of the %s dataset: %f' % ('mnist_m', best_acc_t))
         print('Corresponding model was save in ' + model_root + '/mnist_mnistm_model_epoch_best.pth')
+    
+    fig, (ax1, ax2) = plt.subplots(2)
+    
+    ax1.plot(steps, loss_s_labels, label='loss_s_labels')
+    ax1.plot(steps, loss_s_domains, label='loss_s_domains')
+    ax1.plot(steps, loss_t_domains, label='loss_t_domains')
+    ax1.plot(steps, loss_domains, label='loss_domains')
+    ax1.plot(steps, losses, label='losses')
+
+    ax2.plot(n_epoch, acc_ss, label='acc_s')
+    ax2.plot(n_epoch, acc_ts, label='acc_t')
+    ax2.plot(n_epoch, acc_ss, label='acc')
+
+    plt.show()
