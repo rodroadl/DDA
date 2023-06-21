@@ -171,9 +171,9 @@ def train(root='', n_epoch=100):
         acc_t = eval(target_dataset_name,root)
 
         # for plot
-        acc_ss.append(acc_s.data.cpu())
-        acc_ts.append(acc_t.data.cpu())
-        accs.append(acc_s.data.cpu()+acc_t.data.cpu())
+        acc_ss.append(acc_s)
+        acc_ts.append(acc_t)
+        accs.append(acc_s+acc_t)
 
         if acc_t > best_acc_t:
             best_acc_s = acc_s
